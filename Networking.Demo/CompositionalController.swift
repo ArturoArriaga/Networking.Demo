@@ -12,16 +12,28 @@ import SwiftUI
 class CompositionalController: UICollectionViewController {
     
     var movieResults = [Result]()
+    fileprivate let cellId = "cellId"
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Amazing Movies"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.collectionView.backgroundColor = .systemBackground
         fetchData()
-        self.collectionView.backgroundColor = .white
-        
+        collectionView.register(MovieViewCell.self, forCellWithReuseIdentifier: MovieViewCell.reuseIdentifier)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
+        return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        5
     }
     
     init() {
-        super.init(collectionViewLayout: UICollectionViewLayout())
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
     required init?(coder: NSCoder) {
@@ -69,7 +81,7 @@ struct CompositionalController_Previews: PreviewProvider {
     static var previews: some View {
         CompositionalControllerView()
             .edgesIgnoringSafeArea(.all)
-            .colorScheme(.dark)
+//            .colorScheme(.dark)
         
     }
 }

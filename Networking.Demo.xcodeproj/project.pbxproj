@@ -16,6 +16,7 @@
 		59E5462F23F7341200C93986 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E5462E23F7341200C93986 /* Service.swift */; };
 		59E5463223F734C200C93986 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E5463123F734C200C93986 /* Models.swift */; };
 		59E5463423F86BCF00C93986 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 59E5463323F86BCF00C93986 /* README.md */; };
+		59E5463623F8780B00C93986 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E5463523F8780B00C93986 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		59E5462E23F7341200C93986 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		59E5463123F734C200C93986 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		59E5463323F86BCF00C93986 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		59E5463523F8780B00C93986 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,11 +65,12 @@
 		59DEA0B823F5AEE80091C42B /* Networking.Demo */ = {
 			isa = PBXGroup;
 			children = (
+				59E5463723F8781000C93986 /* Views */,
 				59E5463023F734AB00C93986 /* Models */,
 				59E5462E23F7341200C93986 /* Service.swift */,
 				59DEA0BD23F5AEE80091C42B /* CompositionalController.swift */,
-				59DEA0B923F5AEE80091C42B /* AppDelegate.swift */,
 				59DEA0BB23F5AEE80091C42B /* SceneDelegate.swift */,
+				59DEA0B923F5AEE80091C42B /* AppDelegate.swift */,
 				59DEA0C223F5AEEF0091C42B /* Assets.xcassets */,
 				59DEA0BF23F5AEE80091C42B /* Main.storyboard */,
 				59DEA0C423F5AEEF0091C42B /* LaunchScreen.storyboard */,
@@ -82,6 +85,14 @@
 				59E5463123F734C200C93986 /* Models.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		59E5463723F8781000C93986 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				59E5463523F8780B00C93986 /* CollectionViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +169,7 @@
 			files = (
 				59DEA0BE23F5AEE80091C42B /* CompositionalController.swift in Sources */,
 				59E5462F23F7341200C93986 /* Service.swift in Sources */,
+				59E5463623F8780B00C93986 /* CollectionViewCell.swift in Sources */,
 				59E5463223F734C200C93986 /* Models.swift in Sources */,
 				59DEA0BA23F5AEE80091C42B /* AppDelegate.swift in Sources */,
 				59DEA0BC23F5AEE80091C42B /* SceneDelegate.swift in Sources */,
