@@ -15,6 +15,7 @@
 		59DEA0C623F5AEEF0091C42B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59DEA0C423F5AEEF0091C42B /* LaunchScreen.storyboard */; };
 		59E5462F23F7341200C93986 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E5462E23F7341200C93986 /* Service.swift */; };
 		59E5463223F734C200C93986 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E5463123F734C200C93986 /* Models.swift */; };
+		59E5463423F86BCF00C93986 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 59E5463323F86BCF00C93986 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		59DEA0C723F5AEEF0091C42B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59E5462E23F7341200C93986 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		59E5463123F734C200C93986 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		59E5463323F86BCF00C93986 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 		59DEA0AD23F5AEE80091C42B = {
 			isa = PBXGroup;
 			children = (
+				59E5463323F86BCF00C93986 /* README.md */,
 				59DEA0B823F5AEE80091C42B /* Networking.Demo */,
 				59DEA0B723F5AEE80091C42B /* Products */,
 			);
@@ -141,6 +144,7 @@
 			files = (
 				59DEA0C623F5AEEF0091C42B /* LaunchScreen.storyboard in Resources */,
 				59DEA0C323F5AEEF0091C42B /* Assets.xcassets in Resources */,
+				59E5463423F86BCF00C93986 /* README.md in Resources */,
 				59DEA0C123F5AEE80091C42B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

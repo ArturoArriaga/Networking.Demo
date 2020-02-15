@@ -51,7 +51,9 @@ extension CompositionalController {
                     let decoder = JSONDecoder()
                     let searchResult = try decoder.decode(iTunesSearchResult.self, from: data)
                     self.movieResults = searchResult.results
-//                    self.tableView.reloadData()
+                    
+                    //MARK: See console for data.
+                    print(searchResult.results)
                 } catch let jsonErr {
                     print("Failed to decode json:", jsonErr)
                 }
