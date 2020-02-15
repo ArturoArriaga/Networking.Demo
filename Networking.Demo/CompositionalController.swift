@@ -10,36 +10,44 @@
 import SwiftUI
 
 class CompositionalController: UICollectionViewController {
-    
+//MARK: Properties
     var movieResults = [Result]()
-    fileprivate let cellId = "cellId"
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Amazing Movies"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.collectionView.backgroundColor = .systemBackground
+        setupApperance()
         fetchData()
         collectionView.register(MovieViewCell.self, forCellWithReuseIdentifier: MovieViewCell.reuseIdentifier)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
-        return cell
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
-    }
-    
     init() {
-        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        let layout = UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
+            return CompositionalController.configureLayout()
+        }
+        super.init(collectionViewLayout: layout)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+//MARK: Layout
+extension CompositionalController {
+
+    static func configureLayout() -> NSCollectionLayoutSection {
+        // The item becomes the cell.
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+         item.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 10)
+        // The group becomes all the cells of the section.
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize:
+            .init(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(200)), subitems: [item])
+        //The section becomes an individual group of items. A collection view can have multiple sections for a more complex layout. A compositional layout removes the need for the popular Nested CollecitonViewController architecture.
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.contentInsets.leading = 20
+        return section
+    }
 }
 
 //MARK: Networking
@@ -74,6 +82,33 @@ extension CompositionalController {
     }
 }
 
+//MARK: Delegate and DataSource
+//TODO: Implement Diffable Data Source.
+extension CompositionalController {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
+        return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        5
+    }
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        3
+    }
+    
+}
+
+//MARK: Apperance
+extension CompositionalController {
+    fileprivate func setupApperance() {
+        self.navigationItem.title = "Amazing Movies"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.collectionView.backgroundColor = .systemBackground
+    }
+}
+
 
 
 //MARK: Setup Canvas
@@ -81,7 +116,7 @@ struct CompositionalController_Previews: PreviewProvider {
     static var previews: some View {
         CompositionalControllerView()
             .edgesIgnoringSafeArea(.all)
-//            .colorScheme(.dark)
+            .colorScheme(.dark)
         
     }
 }
