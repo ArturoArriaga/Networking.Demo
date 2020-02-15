@@ -38,10 +38,10 @@ extension CompositionalController {
     static func configureLayout() -> NSCollectionLayoutSection {
         // The item becomes the cell.
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-         item.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 10)
+         item.contentInsets = .init(top: 10, leading: 0, bottom: 10, trailing: 10)
         // The group becomes all the cells of the section.
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:
-            .init(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(200)), subitems: [item])
+            .init(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(200)), subitems: [item])
         //The section becomes an individual group of items. A collection view can have multiple sections for a more complex layout. A compositional layout removes the need for the popular Nested CollecitonViewController architecture.
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
