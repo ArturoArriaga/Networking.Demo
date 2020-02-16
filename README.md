@@ -41,5 +41,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Inspiration/Deisgn by - Yao Yunquiang - China
 
 * WWDC 19 - Advances in CollectionView Layout -  https://developer.apple.com/videos/play/wwdc2019/215/
+* WWDC 19 - Advances in UI Data Sources - https://developer.apple.com/videos/play/wwdc2019/220/
 
 
