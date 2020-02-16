@@ -15,7 +15,7 @@ class MovieDescriptionStackView: UIStackView {
     lazy var titleAndRatingStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [movieNameLabel, spacerView1, movieRatingsLabel])
         sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        sv.heightAnchor.constraint(equalToConstant: 36).isActive = true
         sv.distribution = .fill
         return sv
     }()
@@ -45,7 +45,7 @@ class MovieDescriptionStackView: UIStackView {
     let directorNameLabel: UILabel = {
         let v = UILabel()
         v.text = "Director: Name"
-        v.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        v.heightAnchor.constraint(equalToConstant: 32).isActive = true
         v.font = .systemFont(ofSize: 16)
         return v
     }()
@@ -55,7 +55,7 @@ class MovieDescriptionStackView: UIStackView {
         v.numberOfLines = 3
         v.text = "Chilo and mom and dad drive for home together. Blah blah blah"
         v.textColor = #colorLiteral(red: 0.709620595, green: 0.7137866616, blue: 0.7136848569, alpha: 1)
-        v.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        v.heightAnchor.constraint(equalToConstant: 48).isActive = true
         return v
     }()
 
@@ -84,7 +84,7 @@ extension MovieDescriptionStackView {
     private func createSpacerView () -> UIView {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = .systemBackground
+        v.backgroundColor = .clear
         return v
     }
 }

@@ -24,7 +24,6 @@ class MovieViewCell: UICollectionViewCell {
     
     let trailingStackView = MovieDescriptionStackView()
     
-    
     lazy var baseStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [imageView, trailingStackView])
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -33,17 +32,32 @@ class MovieViewCell: UICollectionViewCell {
         return sv
     }()
     
+    let grayBackGroundView : UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        v.layer.cornerRadius = 12
+        v.backgroundColor = .secondarySystemBackground
+        return v
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .secondarySystemBackground
+//        self.backgroundColor = .secondarySystemBackground
+        self.addSubview(grayBackGroundView)
         self.addSubview(baseStackView)
         self.clipsToBounds = true
         
         NSLayoutConstraint.activate([
+            grayBackGroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            grayBackGroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            grayBackGroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            
             baseStackView.topAnchor.constraint(equalTo: topAnchor),
-            baseStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            baseStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            baseStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            baseStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            baseStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            baseStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             
         
         ])

@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-class CompositionalController: UICollectionViewController {
+class RootCollectionViewController: UICollectionViewController {
 //MARK: Properties
     var movieResults = [Result]()
     
@@ -18,11 +18,14 @@ class CompositionalController: UICollectionViewController {
         setupApperance()
         fetchData()
         collectionView.register(MovieViewCell.self, forCellWithReuseIdentifier: MovieViewCell.reuseIdentifier)
+        collectionView.register(HeaderLabelCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderLabelCell.reuseIdentifier)
     }
     
     init() {
+        
+        //New compositional layout introduced in iOS 13. The layout is configured using a section, group, item design pattern.
         let layout = UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
-            return CompositionalController.configureLayout()
+            return RootCollectionViewController.configureLayout()
         }
         super.init(collectionViewLayout: layout)
     }
@@ -33,7 +36,7 @@ class CompositionalController: UICollectionViewController {
     
 }
 //MARK: Layout
-extension CompositionalController {
+extension RootCollectionViewController {
 
     static func configureLayout() -> NSCollectionLayoutSection {
         // The item becomes the cell.
@@ -46,12 +49,16 @@ extension CompositionalController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets.leading = 20
+        
+        // The section has the following property that can be configured to provide a header.
+        let headerKind = UICollectionView.elementKindSectionHeader
+        section.boundarySupplementaryItems = [.init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40)), elementKind: headerKind, alignment: .topLeading)]
         return section
     }
 }
 
 //MARK: Networking
-extension CompositionalController {
+extension RootCollectionViewController {
     fileprivate func fetchData() {
         let urlString = "https://itunes.apple.com/search?term=starwars&entity=movie"
         guard let url = URL(string: urlString) else { return }
@@ -84,7 +91,12 @@ extension CompositionalController {
 
 //MARK: Delegate and DataSource
 //TODO: Implement Diffable Data Source.
-extension CompositionalController {
+extension RootCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderLabelCell.reuseIdentifier, for: indexPath) as! HeaderLabelCell
+        return headerCell
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
         return cell
@@ -101,11 +113,12 @@ extension CompositionalController {
 }
 
 //MARK: Apperance
-extension CompositionalController {
+extension RootCollectionViewController {
     fileprivate func setupApperance() {
         self.navigationItem.title = "Amazing Movies"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.collectionView.backgroundColor = .systemBackground
+        self.collectionView.isScrollEnabled = true
     }
 }
 
@@ -123,7 +136,7 @@ struct CompositionalController_Previews: PreviewProvider {
 
 struct CompositionalControllerView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<CompositionalControllerView>) -> UIViewController {
-        let controller = CompositionalController()
+        let controller = RootCollectionViewController()
         return UINavigationController(rootViewController: controller)
         
     }
