@@ -11,8 +11,8 @@ This demo application fetches data from the iTunes API and organizes it inside o
 * Support for dark mode
 
 ## ScreenShots
-![](Networking.Demo/ScreenShots/Networking.SS.1.png)
-![](Networking.Demo/ScreenShots/Networking.SS.1.png)
+! [](Networking.Demo/ScreenShots/Networking.SS.1.png)
+! [](Networking.Demo/ScreenShots/Networking.SS.2.png)
 
 
 ### Prerequisites
@@ -39,5 +39,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * Matt Neuburg - Programming IOS 13: Dive Deep Into Views, View Controllers, and Frameworks
 * Inspiration/Deisgn by - Yao Yunquiang - China
+
+* WWDC 19 - Advances in CollectionView Layout -  https://developer.apple.com/videos/play/wwdc2019/215/
 
 
