@@ -6,6 +6,13 @@ This demo application fetches data from the iTunes API and organizes it inside o
 * Compositional Layout
 * UICollectionViewController
 * DiffableData Source
+* Singleton design pattern for Service networking layer
+* URLSession class API for downloading data from indicated URLs
+* Support for dark mode
+
+## ScreenShots
+![](Networking.Demo/ScreenShots/Networking.SS.1.png)
+![](Networking.Demo/ScreenShots/Networking.SS.1.png)
 
 
 ### Prerequisites
