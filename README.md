@@ -11,8 +11,8 @@ This demo application fetches data from the iTunes API and organizes it inside o
 * Support for dark mode
 
 ## ScreenShots
-! [](Networking.Demo/ScreenShots/Networking.SS.1.png)
-! [](Networking.Demo/ScreenShots/Networking.SS.2.png)
+![](ScreenShots/Networking.SS.1.png)
+![](ScreenShots/Networking.SS.2.png)
 
 
 ### Prerequisites
