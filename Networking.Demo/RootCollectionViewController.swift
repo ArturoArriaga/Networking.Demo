@@ -58,34 +58,46 @@ extension RootCollectionViewController {
 }
 
 //MARK: Networking
+//TODO: Move into singleton class. 
 extension RootCollectionViewController {
     fileprivate func fetchData() {
-        let urlString = "https://itunes.apple.com/search?term=starwars&entity=movie"
-        guard let url = URL(string: urlString) else { return }
-        
-        //Actual data fetch with URLSession
-        URLSession.shared.dataTask(with: url) { (data, resp, err) in
-            //Updates the main thread with data.
+//        Service.shared.fetchDataFromiTunesApi()
+        Service.shared.fetchDataFromiTunesApi { (resp) in
+
+            self.movieResults = resp
+            //UI must be update on the main thread. This puts us back on the main thread.
             DispatchQueue.main.async {
-                if let err = err {
-                    print("Failed to fetch apps:", err)
-                    return
-                }
-                
-                guard let data = data else { return }
-                
-                do {
-                    let decoder = JSONDecoder()
-                    let searchResult = try decoder.decode(iTunesSearchResult.self, from: data)
-                    self.movieResults = searchResult.results
-                    
-                    //MARK: See console for data.
-                    print(searchResult.results)
-                } catch let jsonErr {
-                    print("Failed to decode json:", jsonErr)
-                }
+                self.collectionView.reloadData()
             }
-        }.resume()
+            
+        }
+        
+//        let urlString = "https://itunes.apple.com/search?term=starwars&entity=movie"
+//        guard let url = URL(string: urlString) else { return }
+//        
+//        //Actual data fetch with URLSession
+//        URLSession.shared.dataTask(with: url) { (data, resp, err) in
+//            //Updates the main thread with data.
+//            DispatchQueue.main.async {
+//                if let err = err {
+//                    print("Failed to fetch apps:", err)
+//                    return
+//                }
+//                
+//                guard let data = data else { return }
+//                
+//                do {
+//                    let decoder = JSONDecoder()
+//                    let searchResult = try decoder.decode(iTunesSearchResult.self, from: data)
+//                    self.movieResults = searchResult.results
+//                    
+//                    //MARK: See console for data.
+//                    print(searchResult.results)
+//                } catch let jsonErr {
+//                    print("Failed to decode json:", jsonErr)
+//                }
+//            }
+//        }.resume()
     }
 }
 
@@ -99,11 +111,13 @@ extension RootCollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
+        let movie = self.movieResults[indexPath.item]
+        cell.movieResult = movie
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        movieResults.count
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

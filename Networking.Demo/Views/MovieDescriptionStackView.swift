@@ -32,7 +32,7 @@ class MovieDescriptionStackView: UIStackView {
     
     lazy var spacerView1 = createSpacerView()
     
-    let movieRatingsLabel: UILabel = {
+    var movieRatingsLabel: UILabel = {
         let v = UILabel()
         v.text = "9.0"
         v.textAlignment = .center

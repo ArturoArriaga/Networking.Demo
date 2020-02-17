@@ -12,6 +12,15 @@ import UIKit
 class MovieViewCell: UICollectionViewCell {
     static let reuseIdentifier = "MovieViewCellId"
     
+    var movieResult: Result! {
+        didSet {
+            self.trailingStackView.movieNameLabel.text = movieResult.trackName
+            self.trailingStackView.directorNameLabel.text = movieResult.artistName
+            self.trailingStackView.descriptionLabel.text = movieResult.shortDescription
+//            self.trailingStackView.movieRatingsLabel.text = movieResult.trackRentalPrice as? String
+        }
+    }
+    
     let imageView: UIView = {
         let v = UIView()
         v.backgroundColor = .red

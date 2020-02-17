@@ -14,7 +14,9 @@ struct iTunesSearchResult: Decodable {
 }
 
 struct Result: Decodable {
-    let artistName: String
+    let artistName: String?
     let shortDescription: String?
     let trackName: String?
+    var trackRentalPrice: Float?
+    let artistId: Int?
 }
