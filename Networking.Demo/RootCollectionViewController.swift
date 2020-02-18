@@ -12,13 +12,29 @@ import SwiftUI
 class RootCollectionViewController: UICollectionViewController {
 //MARK: Properties
     var movieResults = [Result]()
-    
+    let cellId = "cellid"
     override func viewDidLoad() {
         super.viewDidLoad()
         setupApperance()
         fetchData()
-        collectionView.register(MovieViewCell.self, forCellWithReuseIdentifier: MovieViewCell.reuseIdentifier)
-        collectionView.register(HeaderLabelCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderLabelCell.reuseIdentifier)
+        configureDiffableDataSource()
+
+        collectionView.register(MovieViewCell.self, forCellWithReuseIdentifier: cellId)
+//        collectionView.register(HeaderLabelCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderLabelCell.reuseIdentifier)
+    }
+    
+    enum MovieSection {
+        case starWars
+        case harryPotter
+        case lordOfTheRings
+    }
+    
+    lazy var diffableDataSource: UICollectionViewDiffableDataSource<MovieSection, Result> = .init(collectionView: self.collectionView) { (collectionView, indexPath, Result) -> UICollectionViewCell? in
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! MovieViewCell
+        cell.movieResult = Result
+        
+        return cell
     }
     
     init() {
@@ -34,10 +50,22 @@ class RootCollectionViewController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-//MARK: Layout
-extension RootCollectionViewController {
+    private func configureDiffableDataSource() {
+        collectionView.dataSource = diffableDataSource
+        
+        var snapshot = diffableDataSource.snapshot()
+        snapshot.appendSections([.starWars])
+        snapshot.appendItems([
+            Result(artistName: "help", shortDescription: "love", trackName: "", trackRentalPrice: 2.1, artistId: 123)
+        ], toSection: .starWars)
+        diffableDataSource.apply(snapshot)
+        
+    }
 
+}
+//MARK: Compositional Layout
+/* Introduced in iOS 13, the compositional layout allows developers to design a layout without having to use nested view controllers. Since layout is formed by this viewcontroller, all sections can be accessed by the same navigation controller.*/
+extension RootCollectionViewController {
     static func configureLayout() -> NSCollectionLayoutSection {
         // The item becomes the cell.
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
@@ -63,7 +91,6 @@ extension RootCollectionViewController {
     fileprivate func fetchData() {
 //        Service.shared.fetchDataFromiTunesApi()
         Service.shared.fetchDataFromiTunesApi { (resp) in
-
             self.movieResults = resp
             //UI must be update on the main thread. This puts us back on the main thread.
             DispatchQueue.main.async {
@@ -71,57 +98,36 @@ extension RootCollectionViewController {
             }
             
         }
-        
-//        let urlString = "https://itunes.apple.com/search?term=starwars&entity=movie"
-//        guard let url = URL(string: urlString) else { return }
-//        
-//        //Actual data fetch with URLSession
-//        URLSession.shared.dataTask(with: url) { (data, resp, err) in
-//            //Updates the main thread with data.
-//            DispatchQueue.main.async {
-//                if let err = err {
-//                    print("Failed to fetch apps:", err)
-//                    return
-//                }
-//                
-//                guard let data = data else { return }
-//                
-//                do {
-//                    let decoder = JSONDecoder()
-//                    let searchResult = try decoder.decode(iTunesSearchResult.self, from: data)
-//                    self.movieResults = searchResult.results
-//                    
-//                    //MARK: See console for data.
-//                    print(searchResult.results)
-//                } catch let jsonErr {
-//                    print("Failed to decode json:", jsonErr)
-//                }
-//            }
-//        }.resume()
     }
 }
+
+//MARK: Diffable Data Source
+extension RootCollectionViewController {
+
+}
+
 
 //MARK: Delegate and DataSource
 //TODO: Implement Diffable Data Source.
 extension RootCollectionViewController {
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderLabelCell.reuseIdentifier, for: indexPath) as! HeaderLabelCell
-        return headerCell
-    }
+//    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderLabelCell.reuseIdentifier, for: indexPath) as! HeaderLabelCell
+//        return headerCell
+//    }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
-        let movie = self.movieResults[indexPath.item]
-        cell.movieResult = movie
-        return cell
-    }
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
+//        let movie = self.movieResults[indexPath.item]
+//        cell.movieResult = movie
+//        return cell
+//    }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        movieResults.count
-    }
+//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        movieResults.count
+//    }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        3
+        0
     }
     
 }

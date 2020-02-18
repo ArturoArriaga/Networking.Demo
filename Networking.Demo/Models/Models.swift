@@ -13,7 +13,7 @@ struct iTunesSearchResult: Decodable {
     let results: [Result]
 }
 
-struct Result: Decodable {
+struct Result: Decodable, Hashable {
     let artistName: String?
     let shortDescription: String?
     let trackName: String?

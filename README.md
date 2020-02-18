@@ -1,6 +1,6 @@
 # Networking.Arriaga.Demo
 
-This demo application fetches data from the iTunes API and organizes it inside of the brand new Compositional Layout for UICollectionViewController that was release in iOS 13. As a bonus, I've decided to fead the data into the controller using the (also brand new) diffable data source introduced at WWDC 19.
+This demo application fetches data from the iTunes API and organizes it inside of the brand new Compositional Layout for UICollectionViewController that was release in iOS 13. As a bonus, I've decided to feed the data into the controller using the (also brand new) diffable data source introduced at WWDC 19.
 
 ## Techniques implemented:
 * Compositional Layout

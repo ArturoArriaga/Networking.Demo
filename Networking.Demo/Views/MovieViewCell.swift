@@ -17,7 +17,6 @@ class MovieViewCell: UICollectionViewCell {
             self.trailingStackView.movieNameLabel.text = movieResult.trackName
             self.trailingStackView.directorNameLabel.text = movieResult.artistName
             self.trailingStackView.descriptionLabel.text = movieResult.shortDescription
-//            self.trailingStackView.movieRatingsLabel.text = movieResult.trackRentalPrice as? String
         }
     }
     
@@ -52,7 +51,6 @@ class MovieViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        self.backgroundColor = .secondarySystemBackground
         self.addSubview(grayBackGroundView)
         self.addSubview(baseStackView)
         self.clipsToBounds = true
