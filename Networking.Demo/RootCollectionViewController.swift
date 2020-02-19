@@ -62,7 +62,7 @@ extension RootCollectionViewController {
 }
 
 //MARK: Networking
-//TODO: Move into singleton class. 
+//Asynchronous fetch using a dispatch group.
 extension RootCollectionViewController {
     fileprivate func fetchDataAsynchronously() {
         let dispathGroup = DispatchGroup()
@@ -84,7 +84,7 @@ extension RootCollectionViewController {
             self.lordOfTheRingsResults = resp ?? []
             dispathGroup.leave()
         }
-        
+        //UI Must be updated on the main thread.
         dispathGroup.notify(queue: .main) {
             self.collectionView.reloadData()
         }
