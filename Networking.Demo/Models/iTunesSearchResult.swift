@@ -18,5 +18,6 @@ struct Result: Decodable, Hashable {
     let shortDescription: String?
     let trackName: String?
     var trackRentalPrice: Float?
-    let artistId: Int?
+    let artworkUrl100: String
+    let trackId: Int?
 }

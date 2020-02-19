@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 
 class MovieViewCell: UICollectionViewCell {
@@ -17,14 +18,16 @@ class MovieViewCell: UICollectionViewCell {
             self.trailingStackView.movieNameLabel.text = movieResult.trackName
             self.trailingStackView.directorNameLabel.text = movieResult.artistName
             self.trailingStackView.descriptionLabel.text = movieResult.shortDescription
+            self.imageView.sd_setImage(with: URL(string: movieResult.artworkUrl100))
         }
     }
     
-    let imageView: UIView = {
-        let v = UIView()
+    let imageView: UIImageView = {
+        let v = UIImageView(image: #imageLiteral(resourceName: "starwars"))
         v.backgroundColor = .red
         v.layer.cornerRadius = 12
         v.clipsToBounds = true
+        v.contentMode = .scaleAspectFill
         v.translatesAutoresizingMaskIntoConstraints = false
         v.widthAnchor.constraint(equalToConstant: 125).isActive = true
         return v

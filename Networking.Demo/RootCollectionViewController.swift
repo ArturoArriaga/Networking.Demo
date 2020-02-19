@@ -8,33 +8,21 @@
 
 
 import SwiftUI
+import SDWebImage
 
 class RootCollectionViewController: UICollectionViewController {
 //MARK: Properties
     var movieResults = [Result]()
+    var harryPotterResults = [Result]()
+    var lordOfTheRingsResults = [Result]()
+    
     let cellId = "cellid"
     override func viewDidLoad() {
         super.viewDidLoad()
         setupApperance()
-        fetchData()
-        configureDiffableDataSource()
-
-        collectionView.register(MovieViewCell.self, forCellWithReuseIdentifier: cellId)
-//        collectionView.register(HeaderLabelCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderLabelCell.reuseIdentifier)
-    }
-    
-    enum MovieSection {
-        case starWars
-        case harryPotter
-        case lordOfTheRings
-    }
-    
-    lazy var diffableDataSource: UICollectionViewDiffableDataSource<MovieSection, Result> = .init(collectionView: self.collectionView) { (collectionView, indexPath, Result) -> UICollectionViewCell? in
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! MovieViewCell
-        cell.movieResult = Result
-        
-        return cell
+        fetchDataAsynchronously()
+        collectionView.register(MovieViewCell.self, forCellWithReuseIdentifier: MovieViewCell.reuseIdentifier)
+        collectionView.register(HeaderLabelCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderLabelCell.reuseIdentifier)
     }
     
     init() {
@@ -48,18 +36,6 @@ class RootCollectionViewController: UICollectionViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureDiffableDataSource() {
-        collectionView.dataSource = diffableDataSource
-        
-        var snapshot = diffableDataSource.snapshot()
-        snapshot.appendSections([.starWars])
-        snapshot.appendItems([
-            Result(artistName: "help", shortDescription: "love", trackName: "", trackRentalPrice: 2.1, artistId: 123)
-        ], toSection: .starWars)
-        diffableDataSource.apply(snapshot)
-        
     }
 
 }
@@ -88,46 +64,76 @@ extension RootCollectionViewController {
 //MARK: Networking
 //TODO: Move into singleton class. 
 extension RootCollectionViewController {
-    fileprivate func fetchData() {
-//        Service.shared.fetchDataFromiTunesApi()
+    fileprivate func fetchDataAsynchronously() {
+        let dispathGroup = DispatchGroup()
+        
+        dispathGroup.enter()
         Service.shared.fetchDataFromiTunesApi { (resp) in
-            self.movieResults = resp
-            //UI must be update on the main thread. This puts us back on the main thread.
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-            
+            self.movieResults = resp ?? []
+            dispathGroup.leave()
+        }
+        
+        dispathGroup.enter()
+        Service.shared.fetchHarryPotterData { (resp) in
+            self.harryPotterResults = resp ?? []
+            dispathGroup.leave()
+        }
+        
+        dispathGroup.enter()
+        Service.shared.fetchLordofRingsData { (resp) in
+            self.lordOfTheRingsResults = resp ?? []
+            dispathGroup.leave()
+        }
+        
+        dispathGroup.notify(queue: .main) {
+            self.collectionView.reloadData()
         }
     }
 }
 
-//MARK: Diffable Data Source
-extension RootCollectionViewController {
-
-}
-
 
 //MARK: Delegate and DataSource
-//TODO: Implement Diffable Data Source.
 extension RootCollectionViewController {
-//    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderLabelCell.reuseIdentifier, for: indexPath) as! HeaderLabelCell
-//        return headerCell
-//    }
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderLabelCell.reuseIdentifier, for: indexPath) as! HeaderLabelCell
+        if indexPath.section == 0 {
+            headerCell.label.text = "Star Wars"
+        } else if indexPath.section == 1 {
+            headerCell.label.text = "Harry Potter"
+        } else {
+            headerCell.label.text = "Lord of the Rings"
+        }
+        return headerCell
+    }
     
-//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
-//        let movie = self.movieResults[indexPath.item]
-//        cell.movieResult = movie
-//        return cell
-//    }
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieViewCell.reuseIdentifier, for: indexPath) as! MovieViewCell
+        switch indexPath.section {
+        case 0:
+            let movie = self.movieResults[indexPath.item]
+            cell.movieResult = movie
+        case 1:
+            let movie = self.harryPotterResults[indexPath.item]
+            cell.movieResult = movie
+        default:
+            let movie = self.lordOfTheRingsResults[indexPath.item]
+            cell.movieResult = movie
+        }
+        return cell
+    }
     
-//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        movieResults.count
-//    }
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return movieResults.count
+        } else if section == 1 {
+            return harryPotterResults.count
+        } else {
+            return lordOfTheRingsResults.count
+        }
+    }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        0
+        3
     }
     
 }
